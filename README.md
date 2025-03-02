@@ -49,6 +49,11 @@ The data pipeline has been designed with a **modular** approach to enhance reada
     - **content_completions**: Counts the number of content completions (e.g., `item-finished` events).
     - **device_locale_country**: Counts unique users from the **DACH** region (Germany, Austria, Switzerland).
 
+
+event_date	channel	unique_users	content_interaction	content_completions	device_locale_country
+2025-01-29	app	3	2	1	1
+2025-01-29	web	3	2	1	0
+
 ### dbt Tests
 
 dbt will run the following tests after every model run to ensure data integrity:
