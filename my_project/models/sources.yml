@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: raw_data
+    tables:
+      - name: web_event
+        description: "Web events tracking table"
+      - name: mobile_event
+        description: "Mobile events tracking table"

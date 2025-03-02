@@ -1,0 +1,44 @@
+version: 2
+models:
+  - name: mart
+    description: "Aggregates user engagement metrics by event date, counting unique users, content interactions, and users from the DACH region."
+    columns:
+      - name: event_date
+        description: "The date of the event."
+      - name: channel
+        description: "The channel through which the user interacted with product (e.g., mobile, web)."
+      - name: unique_users
+        description: "The number of unique users who interacted with product on the given day."
+      - name: content_interaction
+        description: "The number of unique users interacting with content (item_type is not null) on the given day."
+      - name: content_completions
+        description: "The number of content completions (item-finished events) on the given day."
+      - name: dach
+        description: "The number of unique users from the DACH region (Germany, Austria, Switzerland) who interacted with product on the given day."
+    tests:
+      - not_null:
+          column_name: event_date
+      - not_null:
+          column_name: unique_users
+      - not_null:
+          column_name: content_interaction
+      - not_null:
+          column_name: content_completions
+      - not_null:
+          column_name: dach
+      - unique:
+          columns:
+            - event_date
+            - channel
+      - unique:
+          columns:
+            - event_date
+            - channel
+            - content_completions
+            - content_interaction
+      - dbt_utils.expression_is_true:
+          expression: "unique_users >= content_interaction"
+          description: "Ensure that unique_users is greater than content_interaction"
+      - dbt_utils.expression_is_true:
+          expression: "device_locale_country <= unique_users"
+          description: "Ensure that device_locale_country is always less than unique_users"
